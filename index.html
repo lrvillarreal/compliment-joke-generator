@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="KindWords is a little corner of the internet for uplifting, thoughtful compliments. Find a kind word, save your favorites, and share the love.">
+  <meta name="description" content="KindWords: a pocket-size deck of 100 compliments and 50 family-friendly jokes. Draw a card, save a favorite, and share a smile.">
   <meta name="theme-color" content="#FAF9F6">
   <title>KindWords — Your Daily Dose of Positivity</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -214,7 +214,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
 .mini-item:last-child { border-bottom: 0; }
 .mini-item-body { min-width: 0; }
 .mini-item-category { color: var(--primary); font-size: 10px; font-weight: 700; margin: 0 0 4px; }
-.mini-item-quote { font: 500 13px/1.55 var(--font-body); margin: 0; overflow-wrap: anywhere; }
+.mini-item-quote { white-space: pre-line; font: 500 13px/1.55 var(--font-body); margin: 0; overflow-wrap: anywhere; }
 .mini-item-action { color: var(--primary); background: none; border: 0; font-size: 11px; font-weight: 700; white-space: nowrap; padding: 6px 0 6px 6px; }
 .mini-item-action:hover { text-decoration: underline; }
 .empty-state { min-height: 185px; padding: 30px 18px; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; }
@@ -287,6 +287,202 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
 
+
+html, body { overflow-x: clip; }
+.skip-link:not(:focus-visible) { clip: rect(0,0,0,0); clip-path: inset(50%); width: 1px; height: 1px; overflow: hidden; }
+/* ============================================================
+   V2 · PLAYING CARD EDITION
+   Keep this override below the base stylesheet for readability.
+   ============================================================ */
+:root {
+  --sky-dust: rgba(137, 195, 237, .20);
+  --lemon-dust: rgba(255, 218, 144, .25);
+  --doodle: rgba(103, 87, 200, .09);
+}
+:root[data-theme='dark'] {
+  --sky-dust: rgba(94, 139, 221, .11);
+  --lemon-dust: rgba(255, 180, 116, .08);
+  --doodle: rgba(190, 177, 255, .075);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --sky-dust: rgba(94, 139, 221, .11);
+    --lemon-dust: rgba(255, 180, 116, .08);
+    --doodle: rgba(190, 177, 255, .075);
+  }
+}
+body {
+  background-color: var(--page);
+  background-image:
+    radial-gradient(ellipse 430px 380px at 5% 18%, var(--sky-dust), transparent 85%),
+    radial-gradient(ellipse 440px 450px at 95% 25%, var(--lemon-dust), transparent 85%),
+    radial-gradient(ellipse 460px 450px at 22% 72%, var(--hero-glow-two), transparent 85%),
+    radial-gradient(ellipse 520px 420px at 85% 91%, var(--hero-glow), transparent 90%),
+    radial-gradient(circle at center, var(--doodle) 1px, transparent 1.8px);
+  background-size: auto, auto, auto, auto, 30px 30px;
+  background-attachment: fixed;
+}
+.site-header { background: color-mix(in srgb, var(--page) 87%, transparent); backdrop-filter: blur(18px); }
+.hero { padding-top: 69px; padding-bottom: 36px; }
+.hero h1 { margin-top: 19px; }
+.hero-hint { font-size: 12px; color: var(--muted); }
+.generator-section { max-width: 900px; }
+.category-list { margin-bottom: 24px; }
+.card-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 24px 10px;
+  isolation: isolate;
+}
+.card-stage::before,
+.card-stage::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 50%;
+  border: 1px dashed var(--border-strong);
+}
+.card-stage::before { width: 590px; height: 590px; transform: rotate(-13deg); }
+.card-stage::after { width: 470px; height: 470px; transform: rotate(21deg); border-style: solid; opacity: .65; }
+.compliment-card {
+  width: min(100%, 402px);
+  aspect-ratio: 5 / 7;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 27px 23px;
+  border: 2px solid var(--border-strong);
+  border-radius: 25px;
+  box-shadow: 0 8px 0 color-mix(in srgb, var(--primary) 9%, var(--page)),
+              0 30px 75px rgba(72, 52, 116, .16);
+  background:
+    radial-gradient(circle at 50% 52%, color-mix(in srgb, var(--primary-soft) 40%, transparent), transparent 55%),
+    var(--surface);
+  transition: box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+}
+.compliment-card:hover { transform: translateY(-3px) rotate(.15deg); box-shadow: 0 9px 0 color-mix(in srgb, var(--primary) 9%, var(--page)), 0 38px 80px rgba(72,52,116,.19); }
+.compliment-card::before { display: none; }
+.compliment-card::after {
+  content: ''; inset: 9px; position: absolute; border: 1px solid var(--border-strong);
+  border-radius: 18px; pointer-events: none; opacity: .8;
+}
+.card-topline { position: relative; z-index: 1; padding-right: 88px; align-items: flex-start; flex-direction: column; gap: 9px; text-align: left; }
+.category-tag { font-size: 11px; border-radius: 999px; padding: 8px 13px; }
+.progress-label { font-size: 10px; padding-left: 5px; }
+.card-sticker {
+  position: absolute;
+  z-index: 1;
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 35px;
+  line-height: 1;
+  user-select: none;
+  background: var(--sticker-bg, #ffdf86);
+  border: 4px solid var(--surface);
+  box-shadow: 0 6px 17px rgba(26, 30, 62, .13), inset 0 1px 0 rgba(255,255,255,.3);
+  transform: rotate(var(--sticker-turn, -12deg));
+  transition: background-color .25s ease, transform .35s ease;
+}
+.card-sticker.top-right { top: 22px; right: 22px; }
+.card-sticker.bottom-left { bottom: 22px; left: 21px; width: 66px; height: 66px; font-size: 31px; }
+.compliment-card.refreshing .card-sticker { animation: sticker-pop .45s cubic-bezier(.2, 1.8, .3, 1) both; }
+@keyframes sticker-pop { from { transform: scale(.65) rotate(-25deg); } to { transform: scale(1) rotate(var(--sticker-turn, -12deg)); } }
+.card-content {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 14px 2px 13px;
+}
+.quote-icon { font-size: 70px; height: 41px; margin: 0 auto 20px; }
+#compliment-text {
+  min-height: 0;
+  margin: 0 auto;
+  font-size: clamp(23px, 3.2vw, 30px);
+  line-height: 1.34;
+  overflow-wrap: break-word;
+  flex: 0 0 auto;
+}
+.compliment-card.is-joke #compliment-text { font-size: clamp(21px, 3.1vw, 27px); }
+.compliment-card.is-joke .quote-icon { color: var(--primary); }
+.joke-punchline {
+  width: 100%;
+  margin: 18px 0 0;
+  font: 700 clamp(20px, 2.8vw, 26px)/1.34 var(--font-heading);
+  letter-spacing: -.4px;
+  color: var(--primary);
+  text-wrap: balance;
+}
+.joke-punchline[hidden] { display: none; }
+.joke-punchline.is-revealed { animation: punchline-reveal .65s cubic-bezier(.2, 1.3, .4, 1) both; }
+@keyframes punchline-reveal {
+  0% { opacity: 0; transform: translateY(15px) scale(.93); filter: blur(2px); }
+  70% { opacity: 1; filter: blur(0); }
+  100% { transform: translateY(0) scale(1); }
+}
+.card-message { margin: 16px 0 0; font-size: 11px; }
+.card-divider { width: 100%; position: relative; z-index: 1; }
+.card-actions { position: relative; z-index: 1; padding-top: 14px; justify-content: flex-end; min-height: 63px; }
+.action-buttons { margin-left: auto; }
+.action-button { width: 40px; height: 40px; border-radius: 12px; }
+.card-footer-mark { position: absolute; left: 66px; top: 21px; font-size: 10px; font-weight: 800; letter-spacing: 1.7px; color: var(--muted); }
+.generator-buttons { display: flex; justify-content: center; align-items: center; gap: 13px; margin-top: 26px; flex-wrap: wrap; }
+.generator-buttons .primary-button { min-width: 192px; }
+.joke-button {
+  color: #3b2852;
+  background: #ffd987;
+  box-shadow: 0 6px 17px rgba(190, 128, 24, .12);
+}
+.joke-button:hover { background: #ffc96a; box-shadow: 0 12px 23px rgba(190, 128, 24, .18); }
+.joke-button:focus-visible { outline-color: var(--focus); }
+.generator-buttons .icon { width: 18px; height: 18px; }
+.generator-buttons .button-emoji { font-size: 18px; line-height: 1; }
+.helper-text { margin-top: 15px; }
+@media (max-width: 520px) {
+  .hero { padding-top: 48px; }
+  .hero-facts { margin-top: 16px; }
+  .card-stage { padding: 10px 0 8px; }
+  .card-stage::before { width: min(100%, 440px); height: auto; aspect-ratio: 1; }
+  .card-stage::after { width: min(91%, 330px); height: auto; aspect-ratio: 1; }
+  .compliment-card { padding: 20px 19px 18px; border-radius: 23px; }
+  .compliment-card::after { inset: 7px; border-radius: 17px; }
+  .card-topline { padding-right: 65px; }
+  .card-sticker { width: 59px; height: 59px; font-size: 28px; top: 17px !important; right: 17px !important; }
+  .card-sticker.bottom-left { width: 53px; height: 53px; font-size: 25px; top: auto !important; bottom: 16px; left: 16px; }
+  .quote-icon { font-size: 60px; height: 32px; margin-bottom: 12px; }
+  #compliment-text { min-height: 0; font-size: clamp(21px, 6.3vw, 27px); }
+  .compliment-card.is-joke #compliment-text { font-size: clamp(19px, 5.7vw, 24px); }
+  .joke-punchline { font-size: clamp(19px, 5.5vw, 23px); margin-top: 13px; }
+  .card-message { margin: 12px 0 0; font-size: 10px; }
+  .card-actions { flex-direction: row; padding-top: 12px; gap: 8px; min-height: 55px; }
+  .action-buttons { gap: 7px; }
+  .action-button { width: 37px; height: 37px; }
+  .card-footer-mark { left: 59px; top: 21px; font-size: 9px; }
+  .generator-buttons { gap: 10px; margin-top: 23px; }
+  .generator-buttons .primary-button { width: auto; flex: 1 1 155px; min-width: 0; padding: 13px 10px; font-size: 11px; }
+  .generator-buttons .arrow-icon { display: none; }
+  .generator-buttons .button-emoji { font-size: 16px; }
+}
+@media (max-width: 360px) {
+  .card-footer-mark { font-size: 8px; letter-spacing: .7px; left: 56px; }
+  .compliment-card { padding: 17px 16px 15px; }
+  .card-content { padding: 8px 0; }
+  .card-message { margin-top: 8px; }
+  .action-button { width: 35px; height: 35px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .compliment-card:hover { transform: none; }
+  .joke-punchline.is-revealed { animation: none; }
+}
+
   </style>
 </head>
 <body>
@@ -350,6 +546,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
       <p>A little compliment can make a big difference. Find a kind word for yourself, or share one with someone who needs it.</p>
       <div class="hero-facts" aria-label="Project highlights">
         <span><span class="fact-dot"></span> 100 kind words</span>
+        <span><span class="fact-dot"></span> 50 family-friendly jokes</span>
         <span><span class="fact-dot"></span> 5 feel-good moods</span>
         <span><span class="fact-dot"></span> Just for you</span>
       </div>
@@ -357,7 +554,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
 
     <section class="generator-section shell" id="generator" aria-label="Compliment generator">
       <div class="section-overline">PICK YOUR MOOD</div>
-      <h2 class="section-title">What kind of boost do you need?</h2>
+      <h2 class="section-title">Choose a mood, or draw a joke!</h2>
       <div class="category-list" role="group" aria-label="Compliment categories">
         <button type="button" class="category-pill is-active" data-category="motivational" aria-pressed="true">✦ <span>Motivational</span></button>
         <button type="button" class="category-pill" data-category="funny" aria-pressed="false">☻ <span>Funny</span></button>
@@ -366,35 +563,52 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
         <button type="button" class="category-pill" data-category="professional" aria-pressed="false">✧ <span>Professional</span></button>
       </div>
 
-      <article class="compliment-card" id="compliment-card" aria-label="Current compliment">
-        <div class="card-topline">
-          <span class="category-tag" id="current-category">Motivational</span>
-          <span class="progress-label" id="progress-label" aria-label="Compliments discovered in this round">1 / 20 discovered</span>
-        </div>
-        <div class="quote-icon" aria-hidden="true">“</div>
-        <blockquote id="compliment-text" aria-live="polite" aria-atomic="true">The world is better with your bright ideas in it.</blockquote>
-        <p class="card-message">A little reminder, just for you <span aria-hidden="true">✦</span></p>
-        <div class="card-divider"></div>
-        <div class="card-actions">
-          <button type="button" id="generate-btn" class="primary-button">
-            <svg class="icon" aria-hidden="true"><use href="#icon-sparkles"></use></svg>
-            <span>New compliment</span>
-            <svg class="icon arrow-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
-          </button>
-          <div class="action-buttons" aria-label="Compliment actions">
-            <button type="button" id="favorite-btn" class="icon-button action-button" aria-label="Save to favorites" aria-pressed="false" title="Save to favorites">
-              <svg class="icon icon-heart" aria-hidden="true"><use href="#icon-heart"></use></svg>
-            </button>
-            <button type="button" id="copy-btn" class="icon-button action-button" aria-label="Copy compliment" title="Copy compliment">
-              <svg class="icon" aria-hidden="true"><use href="#icon-copy"></use></svg>
-            </button>
-            <button type="button" id="share-btn" class="icon-button action-button" aria-label="Share compliment" title="Share compliment">
-              <svg class="icon" aria-hidden="true"><use href="#icon-share"></use></svg>
-            </button>
+      <!-- The 5:7 aspect ratio mirrors a real playing card. -->
+      <div class="card-stage">
+        <article class="compliment-card" id="compliment-card" aria-label="Current compliment or joke">
+          <span class="card-sticker top-right" id="sticker-top" aria-hidden="true">🌈</span>
+          <span class="card-sticker bottom-left" id="sticker-bottom" aria-hidden="true">✨</span>
+          <div class="card-topline">
+            <span class="category-tag" id="current-category">Motivational</span>
+            <span class="progress-label" id="progress-label" aria-label="Entries discovered in this round">1 / 20 discovered</span>
           </div>
-        </div>
-      </article>
-      <p class="helper-text">Made to lift your spirits. No account, no pressure, just kindness.</p>
+          <div class="card-content">
+            <div class="quote-icon" aria-hidden="true">“</div>
+            <blockquote id="compliment-text" aria-live="polite" aria-atomic="true">The world is better with your bright ideas in it.</blockquote>
+            <p class="joke-punchline" id="joke-punchline" aria-live="polite" aria-atomic="true" hidden></p>
+            <p class="card-message" id="card-message">A little reminder, just for you <span aria-hidden="true">✦</span></p>
+          </div>
+          <div class="card-divider"></div>
+          <div class="card-actions">
+            <span class="card-footer-mark" aria-hidden="true">KINDWORDS ✦</span>
+            <div class="action-buttons" aria-label="Save, copy or share the displayed entry">
+              <button type="button" id="favorite-btn" class="icon-button action-button" aria-label="Save to favorites" aria-pressed="false" title="Save to favorites">
+                <svg class="icon icon-heart" aria-hidden="true"><use href="#icon-heart"></use></svg>
+              </button>
+              <button type="button" id="copy-btn" class="icon-button action-button" aria-label="Copy compliment" title="Copy compliment">
+                <svg class="icon" aria-hidden="true"><use href="#icon-copy"></use></svg>
+              </button>
+              <button type="button" id="share-btn" class="icon-button action-button" aria-label="Share compliment" title="Share compliment">
+                <svg class="icon" aria-hidden="true"><use href="#icon-share"></use></svg>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <!-- Primary generator controls deliberately live OUTSIDE the playing card. -->
+      <div class="generator-buttons" role="group" aria-label="Choose what to generate">
+        <button type="button" id="generate-btn" class="primary-button">
+          <svg class="icon" aria-hidden="true"><use href="#icon-sparkles"></use></svg>
+          <span>New compliment</span>
+          <svg class="icon arrow-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        </button>
+        <button type="button" id="joke-btn" class="primary-button joke-button">
+          <span class="button-emoji" aria-hidden="true">😄</span>
+          <span>Tell me a joke</span>
+          <svg class="icon arrow-icon" aria-hidden="true"><use href="#icon-arrow"></use></svg>
+        </button>
+      </div>
+      <p class="helper-text">A deck of good vibes. Save a favorite, share a smile, or wait for the punchline.</p>
     </section>
 
     <section class="extras shell" aria-labelledby="collection-heading">
@@ -432,7 +646,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
         <section class="collection-panel" id="history" aria-labelledby="history-heading">
           <div class="collection-header">
             <span class="collection-icon collection-icon-clock"><svg class="icon" aria-hidden="true"><use href="#icon-clock"></use></svg></span>
-            <div class="collection-title"><h3 id="history-heading">Recently shared smiles</h3><p>Your last 10 discoveries</p></div>
+            <div class="collection-title"><h3 id="history-heading">Recently shared smiles</h3><p>Your last 10 draws</p></div>
             <span class="count-badge" id="history-count">0</span>
           </div>
           <div class="mini-list" id="history-list"></div>
@@ -570,9 +784,213 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
     ]
   };
 
+  // Jokes deliberately use separate setup + punchline fields so the reveal can be timed.
+  const JOKES = [
+    {
+        "setup": "Why did the pencil bring a suitcase?",
+        "punchline": "It was ready to draw a vacation!"
+    },
+    {
+        "setup": "What do clouds wear under their raincoats?",
+        "punchline": "Thunderwear!"
+    },
+    {
+        "setup": "Why did the bicycle fall over?",
+        "punchline": "It was two-tired!"
+    },
+    {
+        "setup": "What did the ocean say to the beach?",
+        "punchline": "Nothing. It just waved!"
+    },
+    {
+        "setup": "Why are elevator jokes so good?",
+        "punchline": "They work on so many levels!"
+    },
+    {
+        "setup": "What do you call a bear with no teeth?",
+        "punchline": "A gummy bear!"
+    },
+    {
+        "setup": "Why did the cookie go to the doctor?",
+        "punchline": "It was feeling crumby!"
+    },
+    {
+        "setup": "Why was the math book feeling sad?",
+        "punchline": "It had too many problems!"
+    },
+    {
+        "setup": "What does a lemon say when it answers the phone?",
+        "punchline": "Yellow!"
+    },
+    {
+        "setup": "Why did the scarecrow win an award?",
+        "punchline": "It was outstanding in its field!"
+    },
+    {
+        "setup": "Why did the tomato blush?",
+        "punchline": "It saw the salad dressing!"
+    },
+    {
+        "setup": "Why did the computer visit the doctor?",
+        "punchline": "It had a bad case of the bugs!"
+    },
+    {
+        "setup": "What do you call a sleeping dinosaur?",
+        "punchline": "A dino-snore!"
+    },
+    {
+        "setup": "Why did the music teacher need a ladder?",
+        "punchline": "To reach the high notes!"
+    },
+    {
+        "setup": "What do you call cheese that is not yours?",
+        "punchline": "Nacho cheese!"
+    },
+    {
+        "setup": "Why was the broom late?",
+        "punchline": "It overswept!"
+    },
+    {
+        "setup": "How do you organize a space party?",
+        "punchline": "You planet!"
+    },
+    {
+        "setup": "What do frogs order at a restaurant?",
+        "punchline": "French flies!"
+    },
+    {
+        "setup": "Why did the banana go to the beach?",
+        "punchline": "To get a little peel of sunshine!"
+    },
+    {
+        "setup": "Why did the calendar get nervous?",
+        "punchline": "Its days were numbered!"
+    },
+    {
+        "setup": "Why did the golfer bring two pairs of socks?",
+        "punchline": "In case they got a hole in one!"
+    },
+    {
+        "setup": "Why do bees have sticky hair?",
+        "punchline": "Because they use honeycombs!"
+    },
+    {
+        "setup": "What kind of tree fits in your hand?",
+        "punchline": "A palm tree!"
+    },
+    {
+        "setup": "Why did the orange stop rolling?",
+        "punchline": "It ran out of juice!"
+    },
+    {
+        "setup": "How does a penguin build its house?",
+        "punchline": "Igloos it together!"
+    },
+    {
+        "setup": "What did one wall say to the other wall?",
+        "punchline": "Meet you at the corner!"
+    },
+    {
+        "setup": "What kind of shoes do spies wear?",
+        "punchline": "Sneakers!"
+    },
+    {
+        "setup": "Why could the skeleton not go to the party?",
+        "punchline": "It had no body to go with!"
+    },
+    {
+        "setup": "Why did the popcorn get promoted?",
+        "punchline": "It was always popping with ideas!"
+    },
+    {
+        "setup": "What did the left eye say to the right eye?",
+        "punchline": "Between us, something smells!"
+    },
+    {
+        "setup": "Why did the strawberry cry?",
+        "punchline": "It was in a jam!"
+    },
+    {
+        "setup": "What do you call a cow that plays an instrument?",
+        "punchline": "A moo-sician!"
+    },
+    {
+        "setup": "Why did the flashlight become a comedian?",
+        "punchline": "It knew how to lighten the mood!"
+    },
+    {
+        "setup": "What do you call a snowman in summer?",
+        "punchline": "A puddle with big dreams!"
+    },
+    {
+        "setup": "Why did the duck buy lipstick?",
+        "punchline": "To put it on its bill!"
+    },
+    {
+        "setup": "What kind of room has no doors or windows?",
+        "punchline": "A mushroom!"
+    },
+    {
+        "setup": "Why did the little boat smile?",
+        "punchline": "It was having a ferry good day!"
+    },
+    {
+        "setup": "What did one plate say to the other?",
+        "punchline": "Dinner is on me!"
+    },
+    {
+        "setup": "Why did the clock start a band?",
+        "punchline": "It had perfect timing!"
+    },
+    {
+        "setup": "What did the paper say to the pencil?",
+        "punchline": "You have a point!"
+    },
+    {
+        "setup": "Why did the sandwich bring a map?",
+        "punchline": "It was on a roll!"
+    },
+    {
+        "setup": "What did the big flower say to the little flower?",
+        "punchline": "Hi, bud!"
+    },
+    {
+        "setup": "Why was the computer so chilly?",
+        "punchline": "It left its Windows open!"
+    },
+    {
+        "setup": "What do you call a dinosaur that knows lots of words?",
+        "punchline": "A thesaurus!"
+    },
+    {
+        "setup": "Why was the belt arrested?",
+        "punchline": "It was holding up a pair of pants!"
+    },
+    {
+        "setup": "Why did the musician bring bread?",
+        "punchline": "For a little jam session!"
+    },
+    {
+        "setup": "What do you call an alligator wearing a vest?",
+        "punchline": "An investigator!"
+    },
+    {
+        "setup": "Why did the jellyfish skip the dance?",
+        "punchline": "It did not have the nerve!"
+    },
+    {
+        "setup": "What did the zero say to the eight?",
+        "punchline": "Nice belt!"
+    },
+    {
+        "setup": "Why did the rainbow get invited to every party?",
+        "punchline": "It always brought the brightest colors!"
+    }
+];
+
   const LABELS = {
     motivational: 'Motivational', funny: 'Funny', romantic: 'Romantic',
-    friendly: 'Friendly', professional: 'Professional'
+    friendly: 'Friendly', professional: 'Professional', joke: 'Joke time!'
   };
   const KEYS = { favorites: 'kindwords.favorites.v1', theme: 'kindwords.theme.v1' };
   const MAX_HISTORY = 10;
@@ -580,11 +998,18 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
   const allCompliments = Object.entries(COMPLIMENTS).flatMap(([category, texts]) =>
     texts.map((text, index) => ({ id: `${category}-${index}`, category, text, index }))
   );
-  const byId = new Map(allCompliments.map((item) => [item.id, item]));
+  const allJokes = JOKES.map((joke, index) => ({
+    id: `joke-${index}`, category: 'joke', index,
+    setup: joke.setup, punchline: joke.punchline,
+    text: `${joke.setup}\n${joke.punchline}`
+  }));
+  const byId = new Map([...allCompliments, ...allJokes].map((item) => [item.id, item]));
 
   const $ = (id) => document.getElementById(id);
   const elements = {
-    card: $('compliment-card'), quote: $('compliment-text'), category: $('current-category'),
+    card: $('compliment-card'), quote: $('compliment-text'), punchline: $('joke-punchline'),
+    message: $('card-message'), stickerTop: $('sticker-top'), stickerBottom: $('sticker-bottom'),
+    joke: $('joke-btn'), category: $('current-category'),
     progress: $('progress-label'), generate: $('generate-btn'), favorite: $('favorite-btn'),
     copy: $('copy-btn'), share: $('share-btn'), theme: $('theme-toggle'),
     dailyDate: $('daily-date'), dailyText: $('daily-text'),
@@ -627,10 +1052,11 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
   const systemTheme = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
   const initialTheme = readStorage(KEYS.theme);
   const state = {
-    category: 'motivational', currentId: null,
+    category: 'motivational', mode: 'compliment', currentId: null,
     favorites: new Set(getSavedFavoriteIds()), history: [],
     bags: Object.fromEntries(Object.keys(COMPLIMENTS).map((name) => [name, []])),
-    lastGenerated: {},
+    lastGenerated: {}, jokeBag: [], lastJokeIndex: null,
+    jokeTimer: null, revealToken: 0, lastStickerColor: '', lastStickerBottomColor: '',
     theme: initialTheme === 'dark' || initialTheme === 'light'
       ? initialTheme : (systemTheme?.matches ? 'dark' : 'light'),
     themeExplicit: initialTheme === 'dark' || initialTheme === 'light',
@@ -694,42 +1120,150 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
     return byId.get(`${category}-${index}`);
   }
 
+
+  const STICKER_STYLES = [
+    ['#ffd56e','🌟'], ['#ffa7b9','🦄'], ['#9ee5d8','🐸'], ['#b8b7ff','🚀'],
+    ['#ffc799','🍕'], ['#a8d7ff','🐳'], ['#f7a3d8','🎨'], ['#ffe68b','🍉'],
+    ['#a9e5ad','🍀'], ['#d7b1ff','🔮'], ['#ffb5a0','🦊'], ['#99e6e3','🛼'],
+    ['#ffd0ee','🦋'], ['#d3d894','🪴'], ['#a6caff','🛸'], ['#eecb96','🍩'],
+    ['#ffd282','🌻'], ['#b6def5','🐙'], ['#b9f1c0','🐢'], ['#ffb6d0','🎈'],
+    ['#bcb4ff','🎮'], ['#f6d99a','🏆'], ['#bce8ed','🪁'], ['#f8b5a9','🪐'],
+    ['#c1e4a4','🎸'], ['#d6baf7','💎'], ['#fad99b','🍦'], ['#b0ddfb','🐧']
+  ];
+  function refreshStickers() {
+    // Each draw gets two different sticker colors and emojis, with no
+    // immediate color repeat from the preceding draw.
+    const choices = STICKER_STYLES.filter(([color]) => color !== state.lastStickerColor);
+    const top = choices[Math.floor(Math.random() * choices.length)];
+    const bottomChoices = STICKER_STYLES.filter(([color, icon]) => color !== top[0] && color !== state.lastStickerBottomColor && icon !== top[1]);
+    const bottom = bottomChoices[Math.floor(Math.random() * bottomChoices.length)];
+    state.lastStickerColor = top[0];
+    state.lastStickerBottomColor = bottom[0];
+    [[elements.stickerTop, top, '-12deg'], [elements.stickerBottom, bottom, '13deg']].forEach(([element, style, turn]) => {
+      element.style.setProperty('--sticker-bg', style[0]);
+      element.style.setProperty('--sticker-turn', turn);
+      element.textContent = style[1];
+    });
+  }
+
+  function clearPendingPunchline() {
+    window.clearTimeout(state.jokeTimer);
+    state.jokeTimer = null;
+    state.revealToken++;
+  }
+  function showPunchline(item) {
+    if (item.id !== state.currentId) return;
+    elements.punchline.textContent = item.punchline;
+    elements.punchline.hidden = false;
+    elements.punchline.classList.remove('is-revealed');
+    void elements.punchline.offsetWidth;
+    elements.punchline.classList.add('is-revealed');
+    elements.message.textContent = 'A little laughter looks good on you! ✨';
+    [elements.favorite, elements.copy, elements.share].forEach((button) => button.disabled = false);
+  }
+  function schedulePunchline(item, delay = true) {
+    clearPendingPunchline();
+    elements.punchline.hidden = true;
+    elements.punchline.textContent = '';
+    elements.punchline.classList.remove('is-revealed');
+    [elements.favorite, elements.copy, elements.share].forEach((button) => button.disabled = true);
+    elements.message.textContent = 'Wait for it… 🥁';
+    const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (!delay || reduceMotion) { showPunchline(item); return; }
+    const token = state.revealToken;
+    state.jokeTimer = window.setTimeout(() => {
+      if (token !== state.revealToken) return;
+      showPunchline(item);
+    }, 2300);
+  }
+
+  function refillJokeBag() {
+    state.jokeBag = shuffle(JOKES.map((_, i) => i));
+    if (state.jokeBag.at(-1) === state.lastJokeIndex && state.jokeBag.length > 1) {
+      [state.jokeBag[0], state.jokeBag[state.jokeBag.length - 1]] =
+        [state.jokeBag[state.jokeBag.length - 1], state.jokeBag[0]];
+    }
+  }
+  function generateJoke() {
+    clearPendingPunchline();
+    state.mode = 'joke';
+    if (!state.jokeBag.length) refillJokeBag();
+    // Also avoid redrawing a joke that has just been reopened from history.
+    if (state.jokeBag.at(-1) === byId.get(state.currentId)?.index &&
+      byId.get(state.currentId)?.category === 'joke') {
+      if (state.jokeBag.length === 1) {
+        refillJokeBag();
+      } else {
+        const lastIndex = state.jokeBag.length - 1;
+        [state.jokeBag[0], state.jokeBag[lastIndex]] = [state.jokeBag[lastIndex], state.jokeBag[0]];
+      }
+    }
+    const index = state.jokeBag.pop();
+    state.lastJokeIndex = index;
+    state.currentId = `joke-${index}`;
+    state.history.unshift(state.currentId);
+    state.history.length = Math.min(state.history.length, MAX_HISTORY);
+    syncCategoryButtons();
+    renderCurrent(true, true);
+    renderHistory();
+  }
+
   function syncCategoryButtons() {
     categoryButtons.forEach((button) => {
-      const active = button.dataset.category === state.category;
+      const active = state.mode === 'compliment' && button.dataset.category === state.category;
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', String(active));
     });
   }
 
-  function renderCurrent(animate = true) {
+  function renderCurrent(animate = true, delayJoke = false) {
     const item = byId.get(state.currentId);
     if (!item) return;
-    elements.quote.textContent = item.text;
+    const isJoke = item.category === 'joke';
+    elements.card.classList.toggle('is-joke', isJoke);
+    elements.quote.textContent = isJoke ? item.setup : item.text;
     elements.category.textContent = LABELS[item.category];
-    const total = COMPLIMENTS[item.category].length;
-    const discovered = total - state.bags[item.category].length;
-    elements.progress.textContent = `${discovered} / ${total} discovered`;
+    if (isJoke) {
+      const discovered = JOKES.length - state.jokeBag.length;
+      elements.progress.textContent = `${discovered} / ${JOKES.length} laughs`;
+      schedulePunchline(item, delayJoke);
+    } else {
+      clearPendingPunchline();
+      elements.punchline.hidden = true;
+      elements.punchline.textContent = '';
+      elements.message.textContent = 'A little reminder, just for you ✦';
+      [elements.favorite, elements.copy, elements.share].forEach((button) => button.disabled = false);
+      const total = COMPLIMENTS[item.category].length;
+      const discovered = total - state.bags[item.category].length;
+      elements.progress.textContent = `${discovered} / ${total} discovered`;
+    }
     const saved = state.favorites.has(item.id);
     elements.favorite.classList.toggle('is-saved', saved);
     elements.favorite.classList.remove('just-saved');
     elements.favorite.setAttribute('aria-pressed', String(saved));
     elements.favorite.setAttribute('aria-label', saved ? 'Remove from favorites' : 'Save to favorites');
     elements.favorite.title = saved ? 'Remove from favorites' : 'Save to favorites';
+    elements.copy.setAttribute('aria-label', isJoke ? 'Copy joke' : 'Copy compliment');
+    elements.copy.title = isJoke ? 'Copy joke' : 'Copy compliment';
+    elements.share.setAttribute('aria-label', isJoke ? 'Share joke' : 'Share compliment');
+    elements.share.title = isJoke ? 'Share joke' : 'Share compliment';
     elements.card.classList.remove('refreshing');
     if (animate) {
-      // Reflow restarts the CSS animation only for a real content change.
+      refreshStickers();
       void elements.card.offsetWidth;
       elements.card.classList.add('refreshing');
     }
   }
 
   function generate() {
+    clearPendingPunchline();
+    state.mode = 'compliment';
     const item = nextCompliment();
     if (!item) { notify('No compliments available in this category.'); return; }
     state.currentId = item.id;
     state.history.unshift(item.id);
     state.history.length = Math.min(state.history.length, MAX_HISTORY);
+    syncCategoryButtons();
     renderCurrent();
     renderHistory();
   }
@@ -773,7 +1307,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
     body.className = 'mini-item-body';
     body.append(
       textElement('p', 'mini-item-category', LABELS[item.category]),
-      textElement('p', 'mini-item-quote', `“${item.text}”`)
+      textElement('p', 'mini-item-quote', item.category === 'joke' ? item.text : `“${item.text}”`)
     );
     const action = textElement('button', 'mini-item-action', actionLabel);
     action.type = 'button';
@@ -790,7 +1324,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
     elements.navFavoritesCount.textContent = String(total);
     if (!total) {
       renderEmpty(elements.favoriteList, '♡', 'A little space for favorites',
-        'Tap the heart on a compliment you love. We’ll keep it right here.');
+        'Tap the heart on a compliment or joke you love. We’ll keep it right here.');
       return;
     }
     elements.favoriteList.replaceChildren(...ids.map((id) => {
@@ -808,10 +1342,11 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
   function viewFromHistory(id) {
     const item = byId.get(id);
     if (!item) return;
-    state.category = item.category;
+    state.mode = item.category === 'joke' ? 'joke' : 'compliment';
+    if (item.category !== 'joke') state.category = item.category;
     state.currentId = id;
     syncCategoryButtons();
-    renderCurrent();
+    renderCurrent(true, false);
     const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     $('generator').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
   }
@@ -820,7 +1355,7 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
     elements.historyCount.textContent = String(state.history.length);
     if (!state.history.length) {
       renderEmpty(elements.historyList, '✧', 'Your story starts here',
-        'Generate your first compliment and your latest finds will appear here.');
+        'Draw a compliment or joke and your latest finds will appear here.');
       return;
     }
     elements.historyList.replaceChildren(...state.history.map((id) =>
@@ -918,12 +1453,13 @@ h1, h2, h3, p, blockquote { margin-top: 0; }
 
   categoryButtons.forEach((button) => button.addEventListener('click', () => {
     const next = button.dataset.category;
-    if (!COMPLIMENTS[next] || next === state.category) return;
+    if (!COMPLIMENTS[next] || (next === state.category && state.mode === 'compliment')) return;
     state.category = next;
     syncCategoryButtons();
     generate();
   }));
   elements.generate.addEventListener('click', generate);
+  elements.joke.addEventListener('click', generateJoke);
   elements.favorite.addEventListener('click', toggleFavorite);
   elements.copy.addEventListener('click', copyCurrent);
   elements.share.addEventListener('click', shareCurrent);
